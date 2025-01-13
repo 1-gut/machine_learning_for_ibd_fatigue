@@ -1,3 +1,5 @@
 venv/
 .DS_Store
 raw_data/
+!logs/.gitkeep
+logs/
