@@ -6,3 +6,4 @@ logs/
 working_data/keras_tuner/
 *forceplots/
 *forceplots/*
+*.png
