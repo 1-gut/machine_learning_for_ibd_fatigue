@@ -10,3 +10,5 @@ working_data/keras_tuner/
 *.pyc
 *.pkl
 exports/*
+correct_predictions.csv
+incorrect_predictions.csv
