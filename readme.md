@@ -1,8 +1,8 @@
-# Machine Learning for Fatigue in IBD
+# Machine Learning for IBD-associated Fatigue
 
 ## Overview
 
-This repository contains the data and code used to create the models referenced in the paper. The python notebooks are similar in process and differ in the input data being one with all the IBD patients and the other, only those in biochemical remission. Biochemical remission here defined as patient being asymptomatic + faecal calprotectin of <250 ug/g + C-reactive protein <5 mg/L.
+This repository contains the data and code used to create machine learning models for studying IBD-associated fatigue. The notebooks implement deep neural networks and other ML approaches, with analyses performed on both the full IBD cohort and a subset of patients in biochemical remission (defined as being asymptomatic + faecal calprotectin <250 ug/g + C-reactive protein <5 mg/L).
 
 ## Pipeline Summary
 
@@ -13,20 +13,29 @@ This repository contains the data and code used to create the models referenced 
 - Python 3.11.9 [Install Here](https://www.python.org/downloads/)
 - Git [Install Here](https://git-scm.com/downloads)
 
-This repository has been tested with Python 3.11.9.
+Key dependencies:
+
+```text
+tensorflow==2.18.0
+torch==2.5.1
+scikit-learn==1.5.2
+pandas==2.2.3
+numpy==2.0.2
+shap==0.46.0
+```
 
 ## Installation
 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/1-gut/machine-learning-for-fatigue-in-ibd.git
+git clone https://github.com/1-gut/machine-learning-for-ibd-fatigue.git
 ```
 
 ### 2. Set up a Python virtual environment
 
 ```bash
-cd machine-learning-for-fatigue-in-ibd
+cd machine-learning-for-ibd-fatigue
 python -m venv venv
 ```
 
@@ -50,33 +59,49 @@ For Windows:
 pip install -r requirements.txt
 ```
 
-## Usage
-
-We recommend using VSCode to run the Jupyter notebooks. Choose the virtual environment you created in the previous step as the Python interpreter.
-
 ## Directory Structure
 
-```sh
-machine-learning-for-fatigue-in-ibd/
-│
-├── data/ # Anonymised data
-├── working_data/ # Intermediate data following preprocessing with notebook 2
-├── output/ # Notebook outputs here
-├── 1_demographics.ipynb # Basic descriptive statistics for the cohorts
-├── 2_ml_data_preprocessing.ipynb # Preprocessing steps
-├── 3_all_ibd_ml_pipeline.ipynb # Main ML pipeline
-├── 4_biochem_remission_ml_pipeline.ipynb # Same pipeline on biochemical remission cohort
+```bash
+machine-learning-for-ibd-fatigue/
+├── data/                          # Anonymised data
+├── output/                        # Model outputs and visualizations
+├── src/                          # Source code modules
+├── tests/                        # Test files
+├── archived_notebooks/           # Previous notebook versions
+├── 1_demographics.ipynb          # Cohort descriptive statistics
+├── 2_dnn.ipynb                   # Deep neural network implementation
+├── 3_dnn_biochemical_remission.ipynb  # DNN for remission cohort
+├── 5_ml_pipeline_all_ibd.ipynb   # Full ML pipeline for all patients
+├── 6_ml_pipeline_biochem_remission.ipynb  # ML pipeline for remission cohort
+├── 8_validation_spain.ipynb      # External validation on Spanish cohort
+├── 9_traditional_logreg_using_statsmodel.ipynb  # Traditional statistics
+└── 10_validation_scotland.ipynb  # External validation on Scottish cohort
 ```
+
+## Usage
+
+We recommend using VSCode to run the Jupyter notebooks. Select the virtual environment created above as your Python interpreter.
+
+Note on units: Blood test measurements use different units between cohorts:
+
+- Scotland: Urea (mmol/L), Creatinine (umol/L)
+- Spain: Urea (mg/dL), Creatinine (mg/dL)
 
 ## Citation
 
-You are very welcomed to use the code within the notebooks as you wish. If you do use the data/models within, please cite the original paper here.
+If you use code or models from this repository, please cite the associated paper [citation details to be added].
 
 ## Feedback
 
-If you have any questions or feedback, please feel free to contact us at [shaun.chuah@glasgow.ac.uk](mailto:shaun.chuah@glasgow.ac.uk)
+For questions or feedback, please contact:
+
+- Shaun Chuah ([shaun.chuah@glasgow.ac.uk](mailto:shaun.chuah@glasgow.ac.uk))
 
 ## Repository Authors
 
-- Robert Whelan ([github.com/rw509](https://github.com/rw509))
 - Shaun Chuah ([github.com/shaunchuah](https://github.com/shaunchuah))
+- Robert Whelan ([github.com/rw509](https://github.com/rw509))
+
+## Data Contributors
+
+[to be added]
