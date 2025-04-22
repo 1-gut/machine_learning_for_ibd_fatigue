@@ -1,5 +1,39 @@
 from pathlib import Path
 
+# This file sets up the output directory structure for the project.
+# You can use ensure_output_dirs() in notebooks to ensure the output structure is created.
+#
+# The output directory structure is as follows:
+# ├── output
+# │   ├── demographics
+# │   ├── all_ibd
+# │   │   ├── dnn
+# │   │   │   ├── exports
+# │   │   │   ├── plots
+# │   │   │   │   ├── forceplots
+# │   │   │   ├── metrics
+# │   │   │   ├── evaluation
+# │   │   ├── sklearn
+# │   │   │   ├── exports
+# │   │   │   ├── plots
+# │   │   │   ├── metrics
+# │   │   │   ├── evaluation
+# │   │   ├── validation
+# │   │   │   ├── spain
+# │   │   │   ├── australia
+# │   ├── biochemical_remission
+# │   │   ├── dnn
+# │   │   │   ├── exports
+# │   │   │   ├── plots
+# │   │   │   │   ├── forceplots
+# │   │   │   ├── metrics
+# │   │   │   ├── evaluation
+# │   │   ├── sklearn
+# │   │   │   ├── exports
+# │   │   │   ├── plots
+# │   │   │   ├── metrics
+# │   │   │   ├── evaluation
+
 # Base project directory
 PROJECT_ROOT = Path(__file__).parent.parent.parent.resolve()
 
