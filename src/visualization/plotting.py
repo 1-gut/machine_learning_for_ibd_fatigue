@@ -1,5 +1,7 @@
+from pathlib import Path
 from typing import Optional
 
+import numpy as np
 import seaborn as sns
 from matplotlib import pyplot as plt
 from sklearn.metrics import confusion_matrix
@@ -27,6 +29,7 @@ def plot_training_validation_auc(history_dict, output_path: Optional[str] = None
     plt.xlabel("Epochs", fontsize=20, fontweight="bold")
     plt.ylabel("AUC", fontsize=20, fontweight="bold")
     plt.legend(fontsize=14)
+    plt.ylim(0, 1)
 
     # Remove the top and right spines
     ax = plt.gca()
@@ -53,7 +56,7 @@ def plot_training_validation_loss(history_dict, output_path: Optional[str] = Non
     plt.xlabel("Epochs", fontsize=20, fontweight="bold")
     plt.ylabel("Loss", fontsize=20, fontweight="bold")
     plt.legend(fontsize=14)
-
+    plt.ylim(0, 1)
     # Remove the top and right spines
     ax = plt.gca()
     ax.spines["top"].set_visible(False)
@@ -67,15 +70,19 @@ def plot_training_validation_loss(history_dict, output_path: Optional[str] = Non
     plt.show()
 
 
-def plot_roc_curve(fpr, tpr, test_auc, output_path: Optional[str] = None):
+def plot_roc_curve(
+    fpr,
+    tpr,
+    test_auc,
+    output_path: Optional[str] = None,
+    title: str = "Performance of Keras DNN on Test Set",
+):
     plt.figure(figsize=(10, 8))
     plt.plot(fpr, tpr, label=f"AUC = {test_auc:.4f}")
     plt.plot([0, 1], [0, 1], "k--", label="Chance (AUC = 0.50)")
     plt.xlabel("False Positive Rate", fontsize=20, fontweight="bold")
     plt.ylabel("True Positive Rate", fontsize=20, fontweight="bold")
-    plt.title(
-        "Performance of Keras DNN on Test Set", fontsize=24, fontweight="bold", pad=40
-    )
+    plt.title(label=title, fontsize=24, fontweight="bold", pad=40)
     plt.legend(loc="lower right", fontsize=14)
 
     # Remove the top and right spines
@@ -191,4 +198,103 @@ def plot_confusion_matrix(y_true, y_pred, save_path):
     # Adjust layout and save
     plt.tight_layout()
     plt.savefig(save_path, dpi=300, bbox_inches="tight")
+    plt.show()
+
+
+def plot_roc_curves(
+    roc_results: dict,
+    dnn_fpr: np.ndarray = None,
+    dnn_tpr: np.ndarray = None,
+    dnn_metrics: dict = None,
+    biochemical_remission=False,
+    output_path: Path = None,
+    title: str = None,
+):
+    """
+    Plot ROC curves for multiple models from sklearn,
+    optionally including DNN comparison from TensorFlow.
+
+    Args:
+        roc_results (dict): Dictionary containing ROC data for multiple models
+        dnn_fpr (array, optional): False positive rates for DNN model
+        dnn_tpr (array, optional): True positive rates for DNN model
+        dnn_metrics (dict, optional): Dictionary containing DNN metrics
+        biochemical_remission (bool): Whether analysis is for biochemical remission cohort
+        output_path (Path): Directory to save the plot
+        title (str, optional): Custom title for the plot
+    """
+    plt.figure(figsize=(10, 8))
+
+    # Plot ROC curves for sklearn models
+    for model_name, roc_data in roc_results.items():
+        test_auc = roc_data["test_auc"]
+        plt.plot(
+            roc_data["fpr"],
+            roc_data["tpr"],
+            label=f"{model_name} (Test AUC = {test_auc:.2f})",
+        )
+
+    # Add DNN model if data is available
+    dnn_included = False
+    if (
+        dnn_fpr is not None
+        and dnn_tpr is not None
+        and dnn_metrics is not None
+        and dnn_metrics["auc"] is not None
+    ):
+        dnn_auc = dnn_metrics["auc"]
+        plt.plot(
+            dnn_fpr,
+            dnn_tpr,
+            label=f"Deep Neural Network (Test AUC = {dnn_auc:.2f})",
+            linewidth=4,
+        )
+        dnn_included = True
+    else:
+        print("DNN ROC data not available, skipping DNN plot.")
+
+    # Add baseline and plot details
+    plt.plot([0, 1], [0, 1], "k--", label="Chance (AUC = 0.50)")
+    plt.xlabel("False Positive Rate", fontsize=20, fontweight="bold")
+    plt.ylabel("True Positive Rate", fontsize=20, fontweight="bold")
+
+    # Set title based on parameters
+    if title:
+        plt.title(title, fontsize=24, fontweight="bold", pad=40)
+    else:
+        if dnn_included:
+            model_prefix = "DNN outperforms other ML algorithms"
+        else:
+            model_prefix = "ML Algorithm Comparison"
+
+        if biochemical_remission:
+            plt.title(
+                f"{model_prefix} (Biochemical Remission)",
+                fontsize=24,
+                fontweight="bold",
+                pad=40,
+            )
+        else:
+            plt.title(
+                f"{model_prefix} (All IBD)", fontsize=24, fontweight="bold", pad=40
+            )
+
+    # Add legend and style the plot
+    plt.legend(loc="lower right", fontsize=14)
+
+    # Style adjustments
+    ax = plt.gca()
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.xaxis.label.set_fontweight("bold")
+    ax.yaxis.label.set_fontweight("bold")
+    ax.tick_params(axis="both", which="major", labelsize=16, width=2)
+
+    # Save the plot if output path is provided
+    if output_path:
+        save_path = output_path / "plots" / "combined_roc_curves.png"
+        plt.savefig(save_path, dpi=300, bbox_inches="tight")
+        print(f"ROC curves saved to {save_path}")
+
+    print("ROC curves plotted successfully. DNN data included:", dnn_included)
     plt.show()

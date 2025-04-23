@@ -143,6 +143,37 @@ def drop_unwanted_columns(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def remove_low_value_features(df: pd.DataFrame) -> pd.DataFrame:
+    columns_to_drop = [
+        "baseline_eims_arthralgia_arthritis",
+        "baseline_eims_ankylosing_spondylitis",
+        "baseline_eims_erythema_nodosum",
+        "baseline_eims_uveitis",
+        "baseline_eims_scleritis_episclerities",
+        "is_smoker_smokeryn1",
+        "study_group_name_Await Dx",
+        "ifx_drug_level",
+        "ada_drug_level",
+        "ifx_drug_level_present",
+        "ada_drug_level_present",
+        "ifx_antibody_present",
+        "ada_antibody_present",
+        "haematocrit",
+    ]
+
+    df.drop(columns=columns_to_drop, inplace=True)
+    return df
+
+
+def fix_numerical_features_for_production(numerical_features: list) -> list:
+    numerical_features = [
+        col
+        for col in numerical_features
+        if col not in ["haematocrit", "ada_drug_level", "ifx_drug_level"]
+    ]
+    return numerical_features
+
+
 def preprocess_data(df: pd.DataFrame, biochemical_remission=False) -> pd.DataFrame:
     """
     Main preprocessing pipeline.

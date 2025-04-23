@@ -46,6 +46,9 @@ DEMOGRAPHICS_DIR = OUTPUT_DIR / "demographics"
 # All IBD
 DNN_DIR = OUTPUT_DIR / "all_ibd" / "dnn"
 SKLEARN_DIR = OUTPUT_DIR / "all_ibd" / "sklearn"
+BENCHMARKING_DIR = OUTPUT_DIR / "all_ibd" / "benchmarking"
+
+# Validation directories
 VALIDATION_SPAIN_DIR = OUTPUT_DIR / "all_ibd" / "validation" / "spain"
 VALIDATION_AUSTRALIA_DIR = OUTPUT_DIR / "all_ibd" / "validation" / "australia"
 
@@ -63,6 +66,7 @@ def ensure_output_dirs():
         DEMOGRAPHICS_DIR,
         DNN_DIR,
         SKLEARN_DIR,
+        BENCHMARKING_DIR,
         VALIDATION_SPAIN_DIR,
         VALIDATION_AUSTRALIA_DIR,
         DNN_BIOCHEM_REMISSION_DIR,
