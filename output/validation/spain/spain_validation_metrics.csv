@@ -1,0 +1,9 @@
+Model,AUC,Accuracy,Sensitivity,Specificity
+Logistic Regression,0.784,0.782,0.381,0.888
+Svc,0.771,0.832,0.619,0.888
+Mlpclassifier,0.76,0.832,0.381,0.95
+Adaboost,0.76,0.792,0.381,0.9
+Deep Neural Network,0.754,0.782,0.381,0.888
+Logistic Regression (statsmodels),0.748,0.743,0.381,0.838
+Xgboost,0.743,0.782,0.476,0.862
+Random Forest,0.74,0.812,0.476,0.9

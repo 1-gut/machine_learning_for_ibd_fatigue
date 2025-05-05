@@ -1,4 +1,6 @@
 import datetime
+import json
+from pathlib import Path
 
 import pandas as pd
 
@@ -54,13 +56,78 @@ def map_season(date: datetime.date) -> str:
         return "no_data"
 
 
-def fill_missing_values(df: pd.DataFrame) -> pd.DataFrame:
-    """Fill missing values in the DataFrame."""
+def map_season_australia(date: datetime.date) -> str:
+    """
+    Takes in a date and returns the corresponding season in Australia.
+    The seasons are defined as follows:
+    - Summer: December, January, February
+    - Autumn: March, April, May
+    - Winter: June, July, August
+    - Spring: September, October, November
+    If the month is not recognized, it returns "no_data".
+
+    Parameters
+    ----------
+    date : datetime.date
+        The date to map to a season.
+
+    Returns
+    -------
+    str
+        The season corresponding to the date.
+    """
+    month = date.month
+    if month in [12, 1, 2]:
+        return "summer"
+    elif month in [3, 4, 5]:
+        return "autumn"
+    elif month in [6, 7, 8]:
+        return "winter"
+    elif month in [9, 10, 11]:
+        return "spring"
+    else:
+        return "no_data"
+
+
+def fill_missing_values(
+    df: pd.DataFrame, save_medians=False, medians_path: Path = None
+) -> pd.DataFrame:
+    """
+    Fill missing values in the DataFrame and optionally save median values to a JSON file.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        The dataframe to fill missing values in
+    save_medians : bool, default=False
+        If True, saves the computed median values to a JSON file
+    medians_path : Path, optional
+        Path where to save the JSON file with median values.
+
+    Returns
+    -------
+    pd.DataFrame
+        The dataframe with filled values
+    """
     for column in COLUMNS_TO_FILL_ZERO:
         df[column] = df[column].fillna(0)
 
+    # Calculate and store median values
+    median_values = {}
     for column in COLUMNS_TO_FILL_MEDIAN:
-        df[column] = df[column].fillna(df[column].median())
+        median_val = df[column].median()
+        median_values[column] = float(
+            median_val
+        )  # Convert numpy.float to Python float for JSON serialization
+        df[column] = df[column].fillna(median_val)
+
+    # Save median values to JSON if requested
+    if save_medians:
+        if medians_path is None:
+            raise ValueError("medians_path must be provided if save_medians is True")
+        with open(medians_path, "w") as f:
+            json.dump(median_values, f, indent=4)
+            print(f"Median values saved to {medians_path}")
     return df
 
 
@@ -174,7 +241,12 @@ def fix_numerical_features_for_production(numerical_features: list) -> list:
     return numerical_features
 
 
-def preprocess_data(df: pd.DataFrame, biochemical_remission=False) -> pd.DataFrame:
+def preprocess_data(
+    df: pd.DataFrame,
+    biochemical_remission=False,
+    save_medians=False,
+    medians_path: Path = None,
+) -> pd.DataFrame:
     """
     Main preprocessing pipeline.
     Please note the order of operations is important.
@@ -189,7 +261,7 @@ def preprocess_data(df: pd.DataFrame, biochemical_remission=False) -> pd.DataFra
     df = create_target_variable(df)
     df = convert_categorical_columns_to_numeric(df)
     df = feature_engineering(df)
-    df = fill_missing_values(df)
+    df = fill_missing_values(df, save_medians=save_medians, medians_path=medians_path)
     df = drop_unused_columns(df)
 
     # If you wish to analyse the dataframe in R without one hot encoding,
@@ -207,7 +279,9 @@ def preprocess_data(df: pd.DataFrame, biochemical_remission=False) -> pd.DataFra
     return df
 
 
-def load_and_preprocess_data(biochemical_remission=False) -> pd.DataFrame:
+def load_and_preprocess_data(
+    biochemical_remission=False, save_medians=False, medians_path: Path = None
+) -> pd.DataFrame:
     """
     Load and preprocess the fatigue dataset.
 
@@ -219,5 +293,27 @@ def load_and_preprocess_data(biochemical_remission=False) -> pd.DataFrame:
 
     """
     df = load_fatigue_dataset()
-    df = preprocess_data(df, biochemical_remission=biochemical_remission)
+    df = preprocess_data(
+        df,
+        biochemical_remission=biochemical_remission,
+        save_medians=save_medians,
+        medians_path=medians_path,
+    )
+    return df
+
+
+def fill_missing_values_with_saved_medians(
+    df: pd.DataFrame, medians_path: Path
+) -> pd.DataFrame:
+    with open(medians_path, "r") as f:
+        median_values = json.load(f)
+
+    for column in COLUMNS_TO_FILL_ZERO:
+        if column in df.columns:
+            df[column] = df[column].fillna(0)
+
+    for column, value in median_values.items():
+        if column in df.columns:
+            df[column] = df[column].fillna(value)
+
     return df

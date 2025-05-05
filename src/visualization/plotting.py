@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import Optional
 
 import numpy as np
+import pandas as pd
 import seaborn as sns
 from matplotlib import pyplot as plt
 from sklearn.metrics import confusion_matrix
@@ -297,4 +298,21 @@ def plot_roc_curves(
         print(f"ROC curves saved to {save_path}")
 
     print("ROC curves plotted successfully. DNN data included:", dnn_included)
+    plt.show()
+
+
+def plot_missing_data_heatmap(df: pd.DataFrame):
+    """
+    Plot a heatmap of missing data in the DataFrame.
+
+    Args:
+        df (pd.DataFrame): DataFrame to visualize missing data.
+    """
+    plt.figure(figsize=(5, 4))
+    sns.heatmap(df.isnull(), cbar=False, cmap="viridis", yticklabels=False)
+    plt.title("Missing Data Heatmap", fontsize=24, fontweight="bold")
+    plt.xlabel("Features", fontsize=20, fontweight="bold")
+    plt.ylabel("Samples", fontsize=20, fontweight="bold")
+    plt.xticks(fontsize=16)
+    plt.yticks(fontsize=16)
     plt.show()

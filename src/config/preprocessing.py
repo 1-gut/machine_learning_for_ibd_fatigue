@@ -31,6 +31,7 @@ COLUMNS_TO_FILL_ZERO = [
 ]
 
 COLUMNS_TO_FILL_MEDIAN = [
+    "age",
     "has_active_symptoms",
     "height",
     "weight",

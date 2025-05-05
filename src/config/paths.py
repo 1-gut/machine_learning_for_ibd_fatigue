@@ -49,8 +49,10 @@ SKLEARN_DIR = OUTPUT_DIR / "all_ibd" / "sklearn"
 BENCHMARKING_DIR = OUTPUT_DIR / "all_ibd" / "benchmarking"
 
 # Validation directories
-VALIDATION_SPAIN_DIR = OUTPUT_DIR / "all_ibd" / "validation" / "spain"
-VALIDATION_AUSTRALIA_DIR = OUTPUT_DIR / "all_ibd" / "validation" / "australia"
+VALIDATION_SPAIN_DIR = OUTPUT_DIR / "validation" / "spain"
+VALIDATION_AUSTRALIA_DIR = OUTPUT_DIR / "validation" / "australia"
+VALIDATION_SCOTLAND_DIR = OUTPUT_DIR / "validation" / "scotland"
+VALIDATION_NORWAY_DIR = OUTPUT_DIR / "validation" / "norway"
 
 # Biochemical remission subgroup
 DNN_BIOCHEM_REMISSION_DIR = OUTPUT_DIR / "biochemical_remission" / "dnn"
