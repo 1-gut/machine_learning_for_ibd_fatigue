@@ -21,6 +21,8 @@ from src.data.preprocessing import (
     map_season_australia,
 )
 
+plt.rcParams["font.family"] = ["Roboto", "Arial", "sans-serif"]
+
 
 def preprocess_validation_data(
     df: pd.DataFrame,
@@ -532,7 +534,7 @@ def plot_shap_force_plot(
 
 
 def plot_combined_roc_curves(
-    all_model_results, output_path, title="ROC Curves", figsize=(12, 10)
+    all_model_results, output_path, title="ROC Curves", figsize=(8, 6)
 ):
     """
     Plot combined ROC curves for multiple models.
@@ -576,11 +578,26 @@ def plot_combined_roc_curves(
     # Customize plot
     plt.xlim([0.0, 1.0])
     plt.ylim([0.0, 1.05])
-    plt.xlabel("False Positive Rate", fontsize=12)
-    plt.ylabel("True Positive Rate", fontsize=12)
-    plt.title(title, fontsize=14)
+    plt.xlabel("False Positive Rate", fontsize=16, fontweight="bold", labelpad=10)
+    plt.ylabel("True Positive Rate", fontsize=16, fontweight="bold", labelpad=10)
+    plt.title(title, fontsize=18, fontweight="bold", pad=20)
     plt.legend(loc="lower right", fontsize=10)
     plt.grid(True, alpha=0.3)
+
+    # Remove top and right spines
+    plt.gca().spines["top"].set_visible(False)
+    plt.gca().spines["right"].set_visible(False)
+    plt.gca().spines["left"].set_linewidth(2)
+    plt.gca().spines["bottom"].set_linewidth(2)
+
+    # Make the ticks bold
+    plt.gca().tick_params(axis="both", which="major", labelsize=12, width=2)
+    plt.gca().tick_params(axis="both", which="minor", labelsize=10, width=2)
+
+    # Make the tick labels bold
+    for label in plt.gca().get_xticklabels() + plt.gca().get_yticklabels():
+        label.set_fontweight("bold")
+        label.set_fontsize(12)
 
     # Save the plot
     plt.savefig(output_path, dpi=300, bbox_inches="tight")
