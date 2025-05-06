@@ -1,8 +1,12 @@
 import json
+import pickle
 from pathlib import Path
 
 import joblib
+import keras
 import pandas as pd
+
+from src.config.paths import DNN_DIR
 
 
 def load_fatigue_dataset() -> pd.DataFrame:
@@ -50,3 +54,32 @@ def load_sklearn_models_and_metadata(models_dir):
         feature_names = json.load(f)["features"]
 
     return models, scaler, feature_names
+
+
+def load_dnn_model(model_date="2025-04-24"):
+    """
+    Load the DNN model, scaler, and SHAP explainer from the exports directory.
+
+    Parameters:
+    -----------
+    model_date : str
+        Date string for the model version (default: "2025-04-24")
+
+    Returns:
+    --------
+    tuple
+        (model, scaler, explainer)
+    """
+    # Load the Keras DNN model
+    model_path = DNN_DIR / "exports" / f"IFM-1_{model_date}.keras"
+    model = keras.saving.load_model(model_path)
+
+    # Load the scaler
+    scaler_path = DNN_DIR / "exports" / f"scaler_{model_date}.pkl"
+    scaler = joblib.load(scaler_path)
+
+    # Load the SHAP explainer
+    explainer_path = DNN_DIR / "exports" / f"shap_explainer_{model_date}.pkl"
+    with open(explainer_path, "rb") as f:
+        explainer = pickle.load(f)
+    return model, scaler, explainer

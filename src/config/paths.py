@@ -18,9 +18,6 @@ from pathlib import Path
 # │   │   │   ├── plots
 # │   │   │   ├── metrics
 # │   │   │   ├── evaluation
-# │   │   ├── validation
-# │   │   │   ├── spain
-# │   │   │   ├── australia
 # │   ├── biochemical_remission
 # │   │   ├── dnn
 # │   │   │   ├── exports
@@ -33,6 +30,12 @@ from pathlib import Path
 # │   │   │   ├── plots
 # │   │   │   ├── metrics
 # │   │   │   ├── evaluation
+# │   ├── validation
+# │   │   ├── spain
+# │   │   ├── australia
+# │   │   ├── scotland
+# │   │   ├── norway
+# │   │   ├── combined
 
 # Base project directory
 PROJECT_ROOT = Path(__file__).parent.parent.parent.resolve()
@@ -53,6 +56,7 @@ VALIDATION_SPAIN_DIR = OUTPUT_DIR / "validation" / "spain"
 VALIDATION_AUSTRALIA_DIR = OUTPUT_DIR / "validation" / "australia"
 VALIDATION_SCOTLAND_DIR = OUTPUT_DIR / "validation" / "scotland"
 VALIDATION_NORWAY_DIR = OUTPUT_DIR / "validation" / "norway"
+VALIDATION_COMBINED_DIR = OUTPUT_DIR / "validation" / "combined"
 
 # Biochemical remission subgroup
 DNN_BIOCHEM_REMISSION_DIR = OUTPUT_DIR / "biochemical_remission" / "dnn"
@@ -71,6 +75,9 @@ def ensure_output_dirs():
         BENCHMARKING_DIR,
         VALIDATION_SPAIN_DIR,
         VALIDATION_AUSTRALIA_DIR,
+        VALIDATION_SCOTLAND_DIR,
+        VALIDATION_NORWAY_DIR,
+        VALIDATION_COMBINED_DIR,
         DNN_BIOCHEM_REMISSION_DIR,
         SKLEARN_BIOCHEM_REMISSION_DIR,
     ]
