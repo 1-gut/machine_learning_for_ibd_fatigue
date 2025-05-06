@@ -32,8 +32,8 @@ pandas==2.2.3
 numpy==2.0.2
 shap==0.46.0
 seaborn==0.13.2
-matplotlib==3.9.2
-statsmodels==0.15.0
+matplotlib==3.10.0
+statsmodels==0.14.4
 ```
 
 ## 💻 Installation
@@ -76,7 +76,6 @@ pip install -r requirements.txt
 ```bash
 machine-learning-for-ibd-fatigue/
 ├── data/                          # Anonymised data
-│   └── cohort_online_cucq32.csv   # Main cohort data
 ├── output/                        # Model outputs and visualizations
 │   ├── demographics/              # Cohort statistics outputs
 │   ├── all_ibd/                   # Results for full IBD cohort
@@ -93,7 +92,7 @@ machine-learning-for-ibd-fatigue/
 ├── 3_dnn_biochemical_remission.ipynb  # DNN for remission cohort
 ├── 4_sklearn.ipynb                # Traditional ML models implementation
 ├── 5_sklearn_biochemical_remission.ipynb  # ML models for remission cohort
-├── 6_traditional_stats_benchmarking.ipynb  # Comparison with statistical methods
+├── 6_traditional_stats_benchmarking.ipynb  # Traditional logistic regression approach
 ├── 7_validation_spain.ipynb       # External validation on Spanish cohort
 ├── 8_validation_australia.ipynb   # External validation on Australian cohort
 ├── 9_validation_scotland.ipynb    # External validation on Scottish cohort
