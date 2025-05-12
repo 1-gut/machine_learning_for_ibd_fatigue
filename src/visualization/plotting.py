@@ -224,7 +224,13 @@ def plot_roc_curves(
         output_path (Path): Directory to save the plot
         title (str, optional): Custom title for the plot
     """
-    plt.figure(figsize=(10, 8))
+    plt.figure(figsize=(8, 6))
+
+    # Assign colors to models
+    model_names = list(roc_results.keys())
+    n_models = len(model_names)
+    colors = plt.cm.viridis(np.linspace(0, 1, n_models))
+    color_index = 0
 
     # Plot ROC curves for sklearn models
     for model_name, roc_data in roc_results.items():
@@ -232,8 +238,11 @@ def plot_roc_curves(
         plt.plot(
             roc_data["fpr"],
             roc_data["tpr"],
-            label=f"{model_name} (Test AUC = {test_auc:.2f})",
+            lw=2,
+            label=f"{model_name} (AUC = {test_auc:.3f})",
+            color=colors[color_index],
         )
+        color_index += 1
 
     # Add DNN model if data is available
     dnn_included = False
@@ -241,55 +250,65 @@ def plot_roc_curves(
         dnn_fpr is not None
         and dnn_tpr is not None
         and dnn_metrics is not None
-        and dnn_metrics["auc"] is not None
+        and dnn_metrics.get("auc") is not None
     ):
         dnn_auc = dnn_metrics["auc"]
         plt.plot(
             dnn_fpr,
             dnn_tpr,
-            label=f"Deep Neural Network (Test AUC = {dnn_auc:.2f})",
-            linewidth=4,
+            lw=2,
+            label=f"Deep Neural Network (AUC = {dnn_auc:.3f})",
+            color="darkorange",
         )
         dnn_included = True
     else:
         print("DNN ROC data not available, skipping DNN plot.")
 
-    # Add baseline and plot details
-    plt.plot([0, 1], [0, 1], "k--", label="Chance (AUC = 0.50)")
-    plt.xlabel("False Positive Rate", fontsize=20, fontweight="bold")
-    plt.ylabel("True Positive Rate", fontsize=20, fontweight="bold")
+    # Add diagonal line
+    plt.plot(
+        [0, 1], [0, 1], color="navy", lw=1, linestyle="--", label="Chance (AUC = 0.50)"
+    )
+
+    # Customize plot
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel("False Positive Rate", fontsize=16, fontweight="bold", labelpad=10)
+    plt.ylabel("True Positive Rate", fontsize=16, fontweight="bold", labelpad=10)
 
     # Set title based on parameters
     if title:
-        plt.title(title, fontsize=24, fontweight="bold", pad=40)
+        plt.title(title, fontsize=18, fontweight="bold", pad=20)
     else:
         if dnn_included:
-            model_prefix = "DNN outperforms other ML algorithms"
+            model_prefix = "DNN Outperforms Other ML Algorithms on Test Set"
         else:
             model_prefix = "ML Algorithm Comparison"
-
         if biochemical_remission:
             plt.title(
                 f"{model_prefix} (Biochemical Remission)",
-                fontsize=24,
+                fontsize=18,
                 fontweight="bold",
-                pad=40,
+                pad=20,
             )
         else:
             plt.title(
-                f"{model_prefix} (All IBD)", fontsize=24, fontweight="bold", pad=40
+                f"{model_prefix} (All IBD)", fontsize=18, fontweight="bold", pad=20
             )
 
-    # Add legend and style the plot
-    plt.legend(loc="lower right", fontsize=14)
+    plt.legend(loc="lower right", fontsize=10)
+    plt.grid(True, alpha=0.3)
 
-    # Style adjustments
+    # Remove top and right spines, thicken left/bottom
     ax = plt.gca()
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-    ax.xaxis.label.set_fontweight("bold")
-    ax.yaxis.label.set_fontweight("bold")
-    ax.tick_params(axis="both", which="major", labelsize=16, width=2)
+    ax.spines["left"].set_linewidth(2)
+    ax.spines["bottom"].set_linewidth(2)
+    ax.tick_params(axis="both", which="major", labelsize=12, width=2)
+    ax.tick_params(axis="both", which="minor", labelsize=10, width=2)
+    for label in ax.get_xticklabels() + ax.get_yticklabels():
+        label.set_fontweight("bold")
+        label.set_fontsize(12)
 
     # Save the plot if output path is provided
     if output_path:
