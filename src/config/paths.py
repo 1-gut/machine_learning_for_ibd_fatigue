@@ -62,6 +62,9 @@ VALIDATION_COMBINED_DIR = OUTPUT_DIR / "validation" / "combined"
 DNN_BIOCHEM_REMISSION_DIR = OUTPUT_DIR / "biochemical_remission" / "dnn"
 SKLEARN_BIOCHEM_REMISSION_DIR = OUTPUT_DIR / "biochemical_remission" / "sklearn"
 
+# Clustering directories
+CLUSTERING_DIR = OUTPUT_DIR / "clustering"
+
 # Create common directories: exports, plots, metrics
 
 
@@ -80,6 +83,7 @@ def ensure_output_dirs():
         VALIDATION_COMBINED_DIR,
         DNN_BIOCHEM_REMISSION_DIR,
         SKLEARN_BIOCHEM_REMISSION_DIR,
+        CLUSTERING_DIR,
     ]
     for d in dirs:
         d.mkdir(parents=True, exist_ok=True)

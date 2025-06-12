@@ -100,7 +100,9 @@ def plot_roc_curve(
 
 
 def plot_cucq_trajectory(
-    df, title: str = "Longitudinal CUCQ Trajectories", output_path: Optional[str] = None
+    df,
+    title: str = "Longitudinal CUCQ Trajectories",
+    output_path: Optional[Path] = None,
 ):
     """Plot CUCQ score trajectories over time.
 
@@ -137,6 +139,71 @@ def plot_cucq_trajectory(
     plt.title(title, fontsize=24, fontweight="bold")
     plt.xlabel("Timepoint", fontsize=20, fontweight="bold", labelpad=20)
     plt.ylabel("CUCQ Score", fontsize=20, fontweight="bold", labelpad=20)
+    # Map axis labels
+    timepoint_labels = {
+        "timepoint_1": "Baseline",
+        "timepoint_2": "3 months",
+        "timepoint_3": "6 months",
+        "timepoint_4": "9 months",
+        "timepoint_5": "12 months",
+    }
+    plt.xticks(
+        ticks=list(timepoint_labels.keys()),
+        labels=list(timepoint_labels.values()),
+        fontsize=16,
+    )
+    plt.yticks(fontsize=16)
+    # Remove the top and right spines
+    ax = plt.gca()
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+
+    if output_path:
+        plt.savefig(output_path, dpi=300, bbox_inches="tight")
+
+    return plt.gcf()
+
+
+def plot_cucq_5_trajectory(
+    df,
+    title: str = "Longitudinal CUCQ Fatigue Question Trajectories",
+    output_path: Optional[Path] = None,
+):
+    """Plot CUCQ score trajectories over time.
+
+    Args:
+        df: DataFrame containing CUCQ data
+        title: Plot title
+        output_path: Path to save plot (optional)
+    """
+    plt.figure(figsize=(12, 8))
+
+    # Plot individual trajectories
+    for study_id in df["study_id"].unique():
+        patient_data = df[df["study_id"] == study_id]
+        plt.plot(
+            "redcap_event_name",
+            "cucq_5",
+            data=patient_data,
+            marker="o",
+            linestyle="-",
+            alpha=0.3,
+            color="gray",
+        )
+
+    # Calculate and plot mean trajectory
+    mean_trajectory = df.groupby("redcap_event_name")["cucq_5"].median()
+    plt.plot(
+        mean_trajectory.index,
+        mean_trajectory.values,
+        color="red",
+        linewidth=3,
+        label="Median CUCQ 5",
+    )
+
+    plt.title(title, fontsize=24, fontweight="bold")
+    plt.xlabel("Timepoint", fontsize=20, fontweight="bold", labelpad=20)
+    plt.ylabel("CUCQ 5 Fatigue Question", fontsize=20, fontweight="bold", labelpad=20)
     # Map axis labels
     timepoint_labels = {
         "timepoint_1": "Baseline",
