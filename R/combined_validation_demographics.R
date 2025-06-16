@@ -1,7 +1,9 @@
+# Depends on output from 10_validation_combined.ipynb
+
 library(gtsummary)
 library(dplyr)
 
-df <- read.csv("../output/clustering/final_clusters.csv")
+df <- read.csv("../output/validation/combined/combined_validation_data.csv")
 
 print("Factor conversions...")
 # Factor Conversions
@@ -116,35 +118,18 @@ df <- df %>%
 
 
 str(df)
+
 theme_gtsummary_journal(journal = "jama")
-print("Creating simplified summary table...")
+print("Creating summary table...")
 table <- df %>% 
-  select(-cluster) %>%
   tbl_summary(
-  by = simplified_cluster
-) %>% 
-  add_p(test = list(study_group ~ "chisq.test")) %>%
-  as_gt() %>%
-  gt::gtsave("output/clustering/simplified_cluster_comparisons_table.docx")
-
-print("Creating full summary table...")
-table <- df %>% 
-  select(-simplified_cluster) %>%
-  tbl_summary(
-  by = cluster
-) %>% 
-  add_p(test = list(study_group ~ "chisq.test")) %>%
-  as_gt() %>%
-  gt::gtsave("output/clustering/full_cluster_comparisons_table.docx")
-
-print("Creating simplified 1 vs 2 table...")
-table <- df %>% 
-  select(-cluster) %>%
-  subset(simplified_cluster %in% c(1, 2)) %>%
-  tbl_summary(
-    by = simplified_cluster
+    by = validation_source
   ) %>% 
-  add_p(test = list(study_group ~ "chisq.test")) %>%
+  add_overall %>%
+  add_p() %>%
   as_gt() %>%
-  gt::gtsave("output/clustering/cluster_1_vs_2.docx")
+  gt::gtsave("output/validation/combined_validation_summary_table.docx")
+
+print(table)
+
 print("Complete.")

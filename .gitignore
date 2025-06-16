@@ -14,3 +14,6 @@ correct_predictions.csv
 incorrect_predictions.csv
 .Rhistory
 final_clusters.csv
+*.docx
+all_cohorts_demographics.csv
+combined_validation_data.csv
