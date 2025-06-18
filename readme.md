@@ -16,6 +16,8 @@ This repository contains the code and implementation of machine learning models 
 - External validation on independent cohorts from Australia, Spain and Scotland
 - Benchmarking ML models against traditional statistical methods
 - Comprehensive evaluation metrics and visualizations
+- Validation of DNN models on external cohorts
+- Clustering analysis to identify fatigue subgroups
 
 ## 📋 Requirements
 
@@ -79,14 +81,17 @@ machine-learning-for-ibd-fatigue/
 ├── output/                        # Model outputs and visualizations
 │   ├── demographics/              # Cohort statistics outputs
 │   ├── all_ibd/                   # Results for full IBD cohort
-│   ├── biochemical_remission/     # Results for full IBD cohort
-│   └── validation/                # Validation on external cohorts
+│   ├── biochemical_remission/     # Results for remission cohort
+│   ├── validation/                # Validation on external cohorts
+│   └── clustering/                # Clustering analysis outputs
+├── archived_notebooks/            # Deprecated notebooks
 ├── src/                           # Source code modules
 │   ├── config/                    # Configuration files and constants
 │   ├── data/                      # Data processing utilities
 │   ├── models/                    # Model definitions
 │   └── visualization/             # Plotting and visualization tools
-├── archived_notebooks/            # Previous notebooks
+├── R/                             # R scripts for cohort comparison using the gtsummary package
+├── 0_all_cohort_table.ipynb       # Merger of Cohorts 1-3 for R cohort descriptive statistics
 ├── 1_demographics.ipynb           # Cohort descriptive statistics
 ├── 2_dnn.ipynb                    # Deep neural network implementation
 ├── 3_dnn_biochemical_remission.ipynb  # DNN for remission cohort
@@ -97,6 +102,7 @@ machine-learning-for-ibd-fatigue/
 ├── 8_validation_australia.ipynb   # External validation on Australian cohort
 ├── 9_validation_scotland.ipynb    # External validation on Scottish cohort
 ├── 10_validation_combined.ipynb   # Combined validation analysis
+├── 11_clustering_knn.ipynb        # Clustering analysis using KNN
 ├── pipeline_summary.png           # Visual overview of the ML pipeline
 ├── requirements.txt               # Package dependencies
 └── LICENSE                        # Apache License 2.0
@@ -106,6 +112,7 @@ machine-learning-for-ibd-fatigue/
 
 | Notebook | Description |
 |----------|-------------|
+| 0_all_cohort_table.ipynb | Merges cohorts 1-3 and exports csv for descriptive statistics using R's gtsummary package |
 | 1_demographics.ipynb | Analysis of cohort characteristics and statistical comparisons |
 | 2_dnn.ipynb | Implementation of deep neural network for fatigue prediction using TensorFlow |
 | 3_dnn_biochemical_remission.ipynb | DNN model specifically for patients in biochemical remission |
@@ -116,6 +123,7 @@ machine-learning-for-ibd-fatigue/
 | 8_validation_australia.ipynb | External validation using Australian cohort data |
 | 9_validation_scotland.ipynb | External validation using Scottish cohort data |
 | 10_validation_combined.ipynb | Combined analysis of all validation cohorts |
+| 11_clustering_knn.ipynb | Clustering analysis using KNN to identify fatigue subgroups in this dataset |
 
 ## 🔍 Validation Datasets
 
@@ -187,6 +195,7 @@ SHAP (SHapley Additive exPlanations) values are used to interpret the models:
 - Summary plots show the most influential features
 - Force plots visualize individual predictions
 - Comparison of feature importance between different models and cohorts
+- **New:** Model agreement heatmaps and enhanced SHAP grid plots in validation notebooks
 
 ## 🔄 Reproducing Our Results
 
@@ -195,6 +204,7 @@ To reproduce our results:
 1. Run the notebooks in numerical order (1_demographics.ipynb → 2_dnn.ipynb → etc.)
 2. Each notebook saves outputs to the appropriate directory in output
 3. Validation notebooks (7-10) rely on trained models from earlier notebooks
+4. For additional data harmonization or legacy pipelines, see `archived_notebooks/`
 
 ## 📝 Citation
 
