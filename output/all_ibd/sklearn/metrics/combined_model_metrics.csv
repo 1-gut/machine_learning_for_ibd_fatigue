@@ -1,0 +1,8 @@
+Model,Accuracy,Sensitivity (Recall),Specificity,AUC
+Deep Neural Network,0.858,0.832,0.875,0.899
+Random Forest,0.648,0.607,0.684,0.734
+XGBoost,0.648,0.615,0.676,0.733
+AdaBoost,0.64,0.598,0.676,0.724
+MLPClassifier,0.621,0.59,0.647,0.699
+Logistic Regression,0.621,0.581,0.654,0.692
+SVC,0.628,0.59,0.662,0.677

@@ -1,32 +1,55 @@
-# Machine Learning for Fatigue in IBD
+# Machine Learning for IBD-associated Fatigue
 
-## Overview
+## 🌟 Overview
 
-This repository contains the data and code used to create the models referenced in the paper. The python notebooks are similar in process and differ in the input data being one with all the IBD patients and the other, only those in biochemical remission. Biochemical remission here defined as patient being asymptomatic + faecal calprotectin of <250 ug/g + C-reactive protein <5 mg/L.
+This repository contains the code and implementation of machine learning models for predicting and studying Inflammatory Bowel Disease (IBD) associated fatigue. The work includes deep neural networks and traditional machine learning approaches, with analyses performed on both the full IBD cohort and a subset of patients in biochemical remission (defined as being asymptomatic + faecal calprotectin <250 μg/g + C-reactive protein <5 mg/L).
 
-## Pipeline Summary
+## 🛠️ Pipeline Summary
 
 ![ML Pipeline Summary](pipeline_summary.png)
 
-## Requirements
+## ✨ Key Features
+
+- Deep neural network models using TensorFlow and PyTorch
+- Traditional machine learning models (Random Forest, XGBoost, SVM, etc.)
+- Explainable AI with SHAP (SHapley Additive exPlanations)
+- External validation on independent cohorts from Australia, Spain and Scotland
+- Benchmarking ML models against traditional statistical methods
+- Comprehensive evaluation metrics and visualizations
+- Validation of DNN models on external cohorts
+- Clustering analysis to identify fatigue subgroups
+
+## 📋 Requirements
 
 - Python 3.11.9 [Install Here](https://www.python.org/downloads/)
 - Git [Install Here](https://git-scm.com/downloads)
 
-This repository has been tested with Python 3.11.9.
+Key dependencies:
 
-## Installation
+```text
+tensorflow==2.18.0
+torch==2.5.1
+scikit-learn==1.5.2
+pandas==2.2.3
+numpy==2.0.2
+shap==0.46.0
+seaborn==0.13.2
+matplotlib==3.10.0
+statsmodels==0.14.4
+```
+
+## 💻 Installation
 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/1-gut/machine-learning-for-fatigue-in-ibd.git
+git clone https://github.com/1-gut/machine-learning-for-ibd-fatigue.git
+cd machine-learning-for-ibd-fatigue
 ```
 
 ### 2. Set up a Python virtual environment
 
 ```bash
-cd machine-learning-for-fatigue-in-ibd
 python -m venv venv
 ```
 
@@ -50,33 +73,165 @@ For Windows:
 pip install -r requirements.txt
 ```
 
-## Usage
+## 📁 Directory Structure
 
-We recommend using VSCode to run the Jupyter notebooks. Choose the virtual environment you created in the previous step as the Python interpreter.
-
-## Directory Structure
-
-```sh
-machine-learning-for-fatigue-in-ibd/
-│
-├── data/ # Anonymised data
-├── working_data/ # Intermediate data following preprocessing with notebook 2
-├── output/ # Notebook outputs here
-├── 1_demographics.ipynb # Basic descriptive statistics for the cohorts
-├── 2_ml_data_preprocessing.ipynb # Preprocessing steps
-├── 3_all_ibd_ml_pipeline.ipynb # Main ML pipeline
-├── 4_biochem_remission_ml_pipeline.ipynb # Same pipeline on biochemical remission cohort
+```bash
+machine-learning-for-ibd-fatigue/
+├── data/                          # Anonymised data
+├── output/                        # Model outputs and visualizations
+│   ├── demographics/              # Cohort statistics outputs
+│   ├── all_ibd/                   # Results for full IBD cohort
+│   ├── biochemical_remission/     # Results for remission cohort
+│   ├── validation/                # Validation on external cohorts
+│   └── clustering/                # Clustering analysis outputs
+├── archived_notebooks/            # Deprecated notebooks
+├── src/                           # Source code modules
+│   ├── config/                    # Configuration files and constants
+│   ├── data/                      # Data processing utilities
+│   ├── models/                    # Model definitions
+│   └── visualization/             # Plotting and visualization tools
+├── R/                             # R scripts for cohort comparison using the gtsummary package
+├── 0_all_cohort_table.ipynb       # Merger of Cohorts 1-3 for R cohort descriptive statistics
+├── 1_demographics.ipynb           # Cohort descriptive statistics
+├── 2_dnn.ipynb                    # Deep neural network implementation
+├── 3_dnn_biochemical_remission.ipynb  # DNN for remission cohort
+├── 4_sklearn.ipynb                # Traditional ML models implementation
+├── 5_sklearn_biochemical_remission.ipynb  # ML models for remission cohort
+├── 6_traditional_stats_benchmarking.ipynb  # Traditional logistic regression approach
+├── 7_validation_spain.ipynb       # External validation on Spanish cohort
+├── 8_validation_australia.ipynb   # External validation on Australian cohort
+├── 9_validation_scotland.ipynb    # External validation on Scottish cohort
+├── 10_validation_combined.ipynb   # Combined validation analysis
+├── 11_clustering_knn.ipynb        # Clustering analysis using KNN
+├── pipeline_summary.png           # Visual overview of the ML pipeline
+├── requirements.txt               # Package dependencies
+└── LICENSE                        # Apache License 2.0
 ```
 
-## Citation
+## 📓 Notebook Descriptions
 
-You are very welcomed to use the code within the notebooks as you wish. If you do use the data/models within, please cite the original paper here.
+| Notebook | Description |
+|----------|-------------|
+| 0_all_cohort_table.ipynb | Merges cohorts 1-3 and exports csv for descriptive statistics using R's gtsummary package |
+| 1_demographics.ipynb | Analysis of cohort characteristics and statistical comparisons |
+| 2_dnn.ipynb | Implementation of deep neural network for fatigue prediction using TensorFlow |
+| 3_dnn_biochemical_remission.ipynb | DNN model specifically for patients in biochemical remission |
+| 4_sklearn.ipynb | Implementation of SKLearn ML models for the full IBD cohort |
+| 5_sklearn_biochemical_remission.ipynb | SKLearn ML models for patients in biochemical remission |
+| 6_traditional_stats_benchmarking.ipynb | Traditional statistical analysis for comparison with ML approaches |
+| 7_validation_spain.ipynb | External validation using Spanish cohort data |
+| 8_validation_australia.ipynb | External validation using Australian cohort data |
+| 9_validation_scotland.ipynb | External validation using Scottish cohort data |
+| 10_validation_combined.ipynb | Combined analysis of all validation cohorts |
+| 11_clustering_knn.ipynb | Clustering analysis using KNN to identify fatigue subgroups in this dataset |
 
-## Feedback
+## 🔍 Validation Datasets
 
-If you have any questions or feedback, please feel free to contact us at [shaun.chuah@glasgow.ac.uk](mailto:shaun.chuah@glasgow.ac.uk)
+The models are validated on three independent external cohorts:
 
-## Repository Authors
+1. **Scottish Cohort**: Data collected from IBD patients in Edinburgh not used in model building
+2. **Spanish Cohort**: Independent validation set with similar clinical metrics but different units
+3. **Australian Cohort**: Third validation cohort for additional geographical diversity
 
-- Robert Whelan ([github.com/rw509](https://github.com/rw509))
+## 🚀 Usage
+
+### Running the Notebooks
+
+We recommend using VSCode to run the Jupyter notebooks. Select the virtual environment created above as your Python interpreter.
+
+```bash
+code .  # Open project in VSCode
+```
+
+Alternatively, start Jupyter lab or notebook server:
+
+```bash
+jupyter lab
+# or
+jupyter notebook
+```
+
+### Note on Units
+
+Blood test measurements use different units between cohorts:
+
+- Scotland: Urea (mmol/L), Creatinine (μmol/L)
+- Spain: Urea (mg/dL), Creatinine (mg/dL)
+
+Conversion functions are included in the codebase to standardize these measurements.
+
+## 📊 Output Directory
+
+The output directory contains the results of the models and visualizations:
+
+```bash
+├── output
+│   ├── demographics                  # Cohort statistics outputs
+│   ├── all_ibd                       # Results for full IBD cohort
+│   │   ├── dnn                       # Deep neural network outputs
+│   │   │   ├── exports               # Exported models and data
+│   │   │   ├── plots                 # Visualization plots
+│   │   │   │   └── forceplots        # SHAP force plots
+│   │   │   ├── metrics               # Model performance metrics
+│   │   │   └── evaluation            # Model evaluation results
+│   │   ├── sklearn                   # Traditional ML model outputs
+│   │   │   ├── exports               # Exported models and data
+│   │   │   ├── plots                 # Visualization plots
+│   │   │   ├── metrics               # Model performance metrics
+│   │   │   └── evaluation            # Model evaluation results
+│   ├── validation                    # External validation results
+│   │   ├── spain                     # Spanish cohort validation
+│   │   ├── australia                 # Australian cohort validation
+│   │   ├── scotland                  # Scottish cohort validation
+│   │   └── combined                  # Combined validation analysis
+│   └── biochemical_remission         # Results for remission cohort
+│       └── ...                       # Similar structure as all_ibd
+```
+
+## 🧠 Model Interpretability
+
+SHAP (SHapley Additive exPlanations) values are used to interpret the models:
+
+- Summary plots show the most influential features
+- Force plots visualize individual predictions
+- Comparison of feature importance between different models and cohorts
+- **New:** Model agreement heatmaps and enhanced SHAP grid plots in validation notebooks
+
+## 🔄 Reproducing Our Results
+
+To reproduce our results:
+
+1. Run the notebooks in numerical order (1_demographics.ipynb → 2_dnn.ipynb → etc.)
+2. Each notebook saves outputs to the appropriate directory in output
+3. Validation notebooks (7-10) rely on trained models from earlier notebooks
+4. For additional data harmonization or legacy pipelines, see `archived_notebooks/`
+
+## 📝 Citation
+
+If you use code or models from this repository in your research, please cite:
+
+```plaintext
+[citation details to be added after publication]
+```
+
+## 💬 Feedback and Contributions
+
+For questions, feedback, or contributions, please:
+
+- Open an issue on GitHub
+- Submit a pull request with proposed changes
+- Contact the authors directly
+
+## 📧 Contact
+
+- Shaun Chuah ([shaun.chuah@glasgow.ac.uk](mailto:shaun.chuah@glasgow.ac.uk))
+- [Gut Translational Research Group](https://www.gla.ac.uk/schools/infectionimmunity/staff/gwotzerho/theguttranslationalresearchgroup/)
+
+## 👨‍💻 Repository Authors
+
 - Shaun Chuah ([github.com/shaunchuah](https://github.com/shaunchuah))
+- Robert Whelan ([github.com/rw509](https://github.com/rw509))
+
+## ⚖️ License
+
+This project is licensed under the Apache License 2.0 - see the LICENSE file for details.

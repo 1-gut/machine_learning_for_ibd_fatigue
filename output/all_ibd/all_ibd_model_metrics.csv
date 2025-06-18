@@ -1,7 +1,0 @@
-Model,Accuracy,Sensitivity (Recall),Specificity (Precision),AUC
-Random Forest,0.649,0.656,0.643,0.727
-XGBoost,0.657,0.694,0.623,0.72
-MLPClassifier,0.641,0.628,0.653,0.712
-AdaBoost,0.639,0.628,0.648,0.7
-SVC,0.634,0.612,0.653,0.693
-Logistic Regression,0.631,0.634,0.628,0.688

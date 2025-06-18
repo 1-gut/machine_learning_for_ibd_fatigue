@@ -1,0 +1,9 @@
+Model,AUC,Accuracy,Sensitivity,Specificity,Positive Predictive Value,Negative Predictive Value,True Positives,True Negatives,False Positives,False Negatives
+Logistic Regression,0.735,0.726,0.461,0.871,0.661,0.747,41,142,21,48
+Mlpclassifier,0.734,0.734,0.427,0.902,0.704,0.742,38,147,16,51
+Svc,0.719,0.726,0.517,0.84,0.639,0.761,46,137,26,43
+Deep Neural Network,0.71,0.687,0.539,0.767,0.558,0.753,48,125,38,41
+Logistic Regression (statsmodels),0.709,0.698,0.438,0.84,0.6,0.733,39,137,26,50
+Adaboost,0.699,0.667,0.258,0.89,0.561,0.687,23,145,18,66
+Xgboost,0.689,0.694,0.371,0.871,0.611,0.717,33,142,21,56
+Random Forest,0.677,0.694,0.36,0.877,0.615,0.715,32,143,20,57
