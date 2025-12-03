@@ -206,7 +206,9 @@ def drop_unwanted_columns(df: pd.DataFrame) -> pd.DataFrame:
         "baseline_eims_pyoderma_gangrenosum",  # all columns are 0
     ]
 
-    df.drop(columns=unwanted_columns, inplace=True)
+    # Some dummy columns may be absent (e.g., if a category does not appear in a subset),
+    # so ignore missing columns instead of raising errors.
+    df.drop(columns=unwanted_columns, inplace=True, errors="ignore")
     return df
 
 

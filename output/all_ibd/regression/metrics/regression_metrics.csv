@@ -1,0 +1,9 @@
+MAE,RMSE,R2,Model,Split
+4.874,5.39,-0.031,Dummy Mean,val
+4.86,5.283,-0.008,Dummy Mean,test
+4.063,4.925,0.139,DNN Regressor,val
+4.544,7.651,-1.114,DNN Regressor,test
+4.055,4.704,0.215,Random Forest,val
+3.951,4.789,0.172,Random Forest,test
+4.077,4.722,0.208,XGBoost,val
+4.079,4.919,0.126,XGBoost,test
