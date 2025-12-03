@@ -17,3 +17,4 @@ final_clusters.csv
 *.docx
 all_cohorts_demographics.csv
 combined_validation_data.csv
+.matplotlib/*
