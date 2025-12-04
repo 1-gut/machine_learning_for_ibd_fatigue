@@ -102,6 +102,8 @@ def evaluate_model(
 
     return {
         "model": model,
+        "y_test_proba": y_test_proba,
+        "y_test_pred": y_test_pred,
         "fpr": fpr,
         "tpr": tpr,
         "test_auc": test_auc,

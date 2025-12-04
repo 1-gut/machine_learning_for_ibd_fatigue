@@ -1,0 +1,8 @@
+Model A,Model B,AUC A,AUC B,Z-Score,p-value
+Logistic Regression,Deep Neural Network,0.735,0.71,1.02,0.308
+Logistic Regression,Logistic Regression (statsmodels),0.735,0.709,2.76,0.006
+Logistic Regression,Svc,0.735,0.719,0.847,0.397
+Logistic Regression,Mlpclassifier,0.735,0.734,0.086,0.932
+Logistic Regression,Xgboost,0.735,0.689,1.911,0.056
+Logistic Regression,Random Forest,0.735,0.677,2.505,0.012
+Logistic Regression,Adaboost,0.735,0.699,1.674,0.094
