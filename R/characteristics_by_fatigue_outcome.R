@@ -1,16 +1,20 @@
-# Depends on output from 10_validation_combined.ipynb
+# Depends on output from 0_all_cohort_table.ipynb
+
+# Resolve paths so the script works when run from either repo root or R/
+root_dir <- if (dir.exists("output/demographics")) normalizePath(".") else normalizePath("..")
+input_path <- file.path(root_dir, "output", "demographics", "all_cohorts_demographics.csv")
+output_dir <- file.path(root_dir, "R", "output", "all_cohorts")
 
 library(gtsummary)
 library(dplyr)
 
-df <- read.csv("../output/demographics/all_cohorts_demographics.csv")
+df <- read.csv(input_path)
 
 print("Factor conversions...")
 # Factor Conversions
 df$sex <- as.factor(df$sex)
 
 binary_cols <- c(
-  
   "has_active_symptoms",
   "sampling_steroids",
   "sampling_abx",
@@ -51,13 +55,10 @@ binary_cols <- c(
   "fatigue_outcome",
   "participant_location",
   "self_reported_disease_activity"
-  
-  
 )
 
 df <- df %>%
-  mutate(across(binary_cols, as.factor)) 
-
+  mutate(across(binary_cols, as.factor))
 str(df)
 
 theme_gtsummary_journal(journal = "jama")
@@ -73,6 +74,4 @@ table <- df %>%
   gt::gtsave("output/all_cohorts/characteristics_by_fatigue_outcome.docx")
 
 print(table)
-
-
 print("Complete.")

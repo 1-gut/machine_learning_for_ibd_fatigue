@@ -18,6 +18,8 @@ This repository contains the code and implementation of machine learning models 
 - Comprehensive evaluation metrics and visualizations
 - Validation of DNN models on external cohorts
 - Clustering analysis to identify fatigue subgroups
+- Missing-data sensitivity analysis to stress-test imputations
+- Regression of fatigue days (0-14) alongside binary classification
 
 ## 📋 Requirements
 
@@ -103,6 +105,8 @@ machine-learning-for-ibd-fatigue/
 ├── 9_validation_scotland.ipynb    # External validation on Scottish cohort
 ├── 10_validation_combined.ipynb   # Combined validation analysis
 ├── 11_clustering_knn.ipynb        # Clustering analysis using KNN
+├── 12_missing_data_sensitivity.ipynb  # Sensitivity analysis for imputation and complete-case comparisons
+├── 13_regression.ipynb                # Regression modelling of fatigue days (0-14) with DL + sklearn
 ├── pipeline_summary.png           # Visual overview of the ML pipeline
 ├── requirements.txt               # Package dependencies
 └── LICENSE                        # Apache License 2.0
@@ -124,6 +128,8 @@ machine-learning-for-ibd-fatigue/
 | 9_validation_scotland.ipynb | External validation using Scottish cohort data |
 | 10_validation_combined.ipynb | Combined analysis of all validation cohorts |
 | 11_clustering_knn.ipynb | Clustering analysis using KNN to identify fatigue subgroups in this dataset |
+| 12_missing_data_sensitivity.ipynb | Sensitivity analysis comparing complete-case training vs imputed data, and quantifying imputation error by masking CRP values |
+| 13_regression.ipynb | Predicts fatigue days (0-14) using deep learning and scikit-learn regressors with group-aware splits |
 
 ## 🔍 Validation Datasets
 
@@ -201,7 +207,7 @@ SHAP (SHapley Additive exPlanations) values are used to interpret the models:
 
 To reproduce our results:
 
-1. Run the notebooks in numerical order (1_demographics.ipynb → 2_dnn.ipynb → etc.)
+1. Run the notebooks in numerical order (1_demographics.ipynb → 11_clustering_knn.ipynb), then the new analyses in 12 and 13 as needed
 2. Each notebook saves outputs to the appropriate directory in output
 3. Validation notebooks (7-10) rely on trained models from earlier notebooks
 4. For additional data harmonization or legacy pipelines, see `archived_notebooks/`
