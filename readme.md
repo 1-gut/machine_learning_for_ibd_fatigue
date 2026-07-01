@@ -217,7 +217,7 @@ To reproduce our results:
 If you use code or models from this repository in your research, please cite:
 
 ```plaintext
-[citation details to be added after publication]
+Chuah CS, Hall R, Whelan RJ, Cartlidge PD, Gros B, Iglesias-Flores E, et al. Machine-learning approach to dissect the clinical heterogeneity of IBD-associated fatigue. BMJ Digital Health & AI. 2026;2:e000037. https://doi.org/10.1136/bmjdh-2026-000037
 ```
 
 ## 💬 Feedback and Contributions
